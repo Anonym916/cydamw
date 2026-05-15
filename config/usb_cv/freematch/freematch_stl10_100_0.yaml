@@ -1,0 +1,93 @@
+# =========================
+# Algorithm
+# =========================
+algorithm: freematch
+
+# =========================
+# Logging
+# =========================
+save_dir: ./saved_models/usb_cv/
+save_name: freematch_stl10_100_r50_coordaug
+resume: false
+overwrite: true
+use_tensorboard: true
+use_wandb: true
+use_aim: false
+
+# =========================
+# Training
+# =========================
+epoch: 200
+num_train_iter: 204800
+num_log_iter: 256
+num_eval_iter: 2048
+num_warmup_iter: 5120
+
+batch_size: 8
+eval_batch_size: 16
+num_labels: 100
+uratio: 1
+
+seed: 0
+amp: false
+clip: 0
+clip_grad: 0
+clip_thresh: false
+
+# =========================
+# FreeMatch specifics
+# =========================
+ema_m: 0
+ema_p: 0.999
+hard_label: true
+T: 0.5
+ent_loss_ratio: 0.001
+
+# =========================
+# Optimizer
+# =========================
+optim: AdamW
+lr: 0.0001
+layer_decay: 0.65
+momentum: 0.9
+weight_decay: 0.0005
+
+# =========================
+# Data
+# =========================
+dataset: stl10
+data_dir: ./data
+num_classes: 10
+img_size: 96
+crop_ratio: 0.875
+train_sampler: RandomSampler
+num_workers: 4
+include_lb_to_ulb: true
+
+# =========================
+# Network (ResNet-50)
+# =========================
+net: resnet50
+net_from_name: false
+
+use_pretrain: true
+pretrain_path: /dcs/pg24/u5611943/resnet50_converted.pth
+
+# ⚠️ 与 coord encoding augmentation 对齐
+use_cat: false
+
+# =========================
+# Coord Encoding Augmentation (CNN 专用)
+# =========================
+coord_aug_strength: 0.95
+
+# =========================
+# Distributed
+# =========================
+distributed: false
+multiprocessing_distributed: false
+world_size: 1
+rank: 0
+gpu: 0
+dist_backend: nccl
+dist_url: tcp://127.0.0.1:25351

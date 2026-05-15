@@ -1,0 +1,90 @@
+# =========================
+# Algorithm
+# =========================
+algorithm: fixmatch
+
+# =========================
+# Logging
+# =========================
+save_dir: ./saved_models/usb_cv/
+save_name: fixmatch_cifar100_200_vits_enaug
+resume: False
+load_path: ''
+overwrite: True
+use_tensorboard: True
+use_wandb: True
+
+# =========================
+# Training
+# =========================
+epoch: 200
+num_train_iter: 204800
+num_log_iter: 256
+num_eval_iter: 2048
+num_warmup_iter: 5120
+
+batch_size: 8
+eval_batch_size: 16
+num_labels: 200
+uratio: 1
+
+seed: 0
+amp: False
+clip: 0.0
+
+# =========================
+# FixMatch specifics
+# =========================
+ema_m: 0.0
+hard_label: True
+T: 0.5
+p_cutoff: 0.95
+ulb_loss_ratio: 1.0
+
+# =========================
+# Optimizer
+# =========================
+optim: AdamW
+lr: 0.0005
+momentum: 0.9
+weight_decay: 0.0005
+
+# =========================
+# Data
+# =========================
+dataset: cifar100
+data_dir: ./data
+num_classes: 100
+img_size: 32
+crop_ratio: 0.875
+train_sampler: RandomSampler
+num_workers: 4
+
+# =========================
+# Network (ViT-Small)
+# =========================
+net: vit_small_patch2_32
+net_from_name: False
+
+# ViT 不使用 cat augmentation
+use_cat: False
+
+# 使用 ImageNet-1K 预训练权重
+use_pretrain: True
+pretrain_path: https://github.com/microsoft/Semi-supervised-learning/releases/download/v.0.0.0/vit_small_patch2_32_mlp_im_1k_32.pth
+
+# =========================
+# Encoding-based Augmentation (enaug, ViT)
+# =========================
+encoding_aug_type: rope
+encoding_aug_strength: 0.95
+
+# =========================
+# Distributed
+# =========================
+world_size: 1
+rank: 0
+multiprocessing_distributed: False
+dist_url: tcp://127.0.0.1:10006
+dist_backend: nccl
+gpu: None
